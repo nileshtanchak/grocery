@@ -8,19 +8,32 @@ class ProductProvider extends ChangeNotifier {
   DatabaseService service = DatabaseService();
   FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
   Future<List<Product>>? _futureProductList;
+  Future<List<Product>>? _futureSearchList;
   bool favourite = false;
   List<bool> checkFavourite = [false, false, false, false, false, false, false];
 
   Future<List<Product>>? get futureProductList => _futureProductList;
+
+  Future<List<Product>>? get futureSearchList => _futureSearchList;
   List<Product> _productList = [];
+  List<Product> _searchList = [];
 
   List<Product> get productList => _productList;
+
+  List<Product> get searchList => _searchList;
 
   Future<List<Product>?> fetchProduct() async {
     _futureProductList = service.getProduct();
     _productList = await service.getProduct();
     notifyListeners();
     return _productList;
+  }
+
+  Future<List<Product>?> searchProduct() async {
+    _futureSearchList = service.getProduct();
+    _searchList = await service.getProduct();
+    notifyListeners();
+    return _searchList;
   }
 
   void addProduct(product) {

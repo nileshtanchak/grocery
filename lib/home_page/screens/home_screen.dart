@@ -4,7 +4,6 @@ import 'package:on_boarding/dash_board_page/model/offer_model.dart';
 import 'package:on_boarding/home_page/screens/categories_screen.dart';
 import 'package:on_boarding/profile_section/Provider/profile_provider.dart';
 import 'package:on_boarding/provider/category_provider.dart';
-import 'package:on_boarding/provider/home_screen_provider.dart';
 import 'package:on_boarding/services/databaseService.dart';
 import 'package:on_boarding/shopping_cart/provider/shopping_provider.dart';
 import 'package:on_boarding/shopping_cart/screens/shopping_cart_page.dart';
@@ -14,6 +13,7 @@ import 'package:provider/provider.dart';
 import '../../dash_board_page/widgets/custom_categories_stream_view_builder.dart';
 import '../../dash_board_page/widgets/dash_board_page_view.dart';
 import '../../dash_board_page/widgets/see_all_header_row.dart';
+import '../../provider/prodcut_provider.dart';
 import '../widgets/category_wise_stream_view_builder.dart';
 import '../widgets/top_selling_list_stream_view_builder.dart';
 
@@ -158,19 +158,21 @@ class _HomeScreenState extends State<HomeScreen> {
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5),
-                child: CustomTextField(
-                  filled: true,
-                  filledColor: Colors.green.shade50,
-                  hintText: "search products",
-                  priIcons: Icons.search,
-                  onPress: () {},
-                  onChange: (value) {
-                    Provider.of<HomeScreenProvider>(context).onChange(value);
+                child: Consumer<ProductProvider>(
+                  builder: (_, provider, __) {
+                    return CustomTextField(
+                      filled: true,
+                      filledColor: Colors.green.shade50,
+                      hintText: "search products",
+                      priIcons: Icons.search,
+                      onPress: () {},
+                      onChange: provider.onSearchTextChanged,
+                      obscureText: false,
+                      controller: searchController,
+                      border: InputBorder.none,
+                      priIconColor: Colors.black,
+                    );
                   },
-                  obscureText: false,
-                  controller: searchController,
-                  border: InputBorder.none,
-                  priIconColor: Colors.black,
                 ),
               ),
 
